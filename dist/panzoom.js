@@ -60,6 +60,7 @@ function createPanZoom(domElement, options) {
   // TODO: likely need to unite pinchSpeed with zoomSpeed
   var pinchSpeed = typeof options.pinchSpeed === 'number' ? options.pinchSpeed : 1;
   var bounds = options.bounds;
+  var boundsDisabledForZoom = typeof options.boundsDisabledForZoom === 'boolean' ? options.boundsDisabledForZoom : false
   var maxZoom = typeof options.maxZoom === 'number' ? options.maxZoom : Number.POSITIVE_INFINITY;
   var minZoom = typeof options.minZoom === 'number' ? options.minZoom : 0;
 
@@ -411,7 +412,7 @@ function createPanZoom(domElement, options) {
       keepTransformInsideBounds();
     } else {
       var transformAdjusted = keepTransformInsideBounds();
-      if (!transformAdjusted) transform.scale *= ratio;
+      if (boundsDisabledForZoom || !transformAdjusted) transform.scale *= ratio;
     }
 
     triggerEvent('zoom');
